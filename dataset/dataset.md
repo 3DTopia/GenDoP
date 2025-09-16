@@ -20,21 +20,22 @@ We are committed to maintaining transparency and compliance in our data collecti
 - You agree not to reproduce, duplicate, copy, sell, trade, resell, or exploit for any commercial purposes, any portion of the videos, and any portion of derived data. You agree not to further copy, publish, or distribute any portion of the DataDoP dataset.
 
 ## Dataset Overview
-**Note:** The `DataDoP` dataset comprises 29K video clips curated from online artistic videos. Each data sample includes metadata such as ClipID, YouTubeID, StartTime, EndTime, CropSize. In addition to the raw data, the processed dataset features captions, the RGBD of the first frame, and extracted camera trajectories. These trajectories have been subsequently cleaned, smoothed, and interpolated into fixed-length sequences.
+**Note:** The `DataDoP` dataset comprises 29K video clips curated from online artistic videos. Each data sample includes metadata such as ClipID, YouTubeID, CropSize, StartTime, EndTime. In addition to the raw data, the processed dataset features captions, the RGBD of the first frame, and extracted camera trajectories. These trajectories have been subsequently cleaned, smoothed, and interpolated into fixed-length sequences.
 
 ### Dataset Metadata
 The [`dataset/metadata.csv`](metadata.csv) file contains the following columns:
-- **ClipID**: The Video ID for the video and its corresponding shot ID, formatted as `1_0000/shot_0014`.
+- **ClipID**: The Video ID for the video and its corresponding shot ID, formatted as `1_0000/shot_0070`.
 - **YouTubeID**: The YouTube ID of the original video (e.g., `dfo_rMmdi0A`). The source video URL can be found at `https://www.youtube.com/watch?v={youtubeid}`.
+- **CropSize**: The cropping parameters in the format used by `ffmpeg`, typically formatted as `w:h:x:y` (e.g., `640:360:0:30`).
 - **StartTime**: The start time of the video segment in seconds.
 - **EndTime**: The end time of the video segment in seconds.
-- **CropSize**: The cropping parameters in the format used by `ffmpeg`, typically formatted as `w:h:x:y` (e.g., `640:360:0:30`).
 
 **Example Data Entry**
 
-| VideoID | YouTubeID | StartTime | EndTime | CropSize |
-|---------|-----------|-----------|---------|----------|
-|  |  |  |  |  |
+| VideoID | YouTubeID | CropSize | StartTime | EndTime |
+|---------|-----------|----------|-----------|---------|
+| 1_0000/shot_0070 | dfo_rMmdi0A | 640:256:0:52 | 00:03:53.458 | 00:04:09.125 |
+
 
 ### Dataset Format
 ```bash
@@ -56,6 +57,8 @@ DataDoP // DataDoP Dataset
 │   │       // Camera extrinsics from MonST3R
 │   ├── <ShotID>_transforms_cleaning.json
 │   │       // Cleaned, smoothed, and interpolated camera trajectory data (in fixed-length format)
+│   ├── <ShotID>_traj_cleaning.png
+│   │       // Visualization for trajectory in <ShotID>_transforms_cleaning.json
 ```
 
 ## Dataset Construction
@@ -74,45 +77,41 @@ Install [MonST3R](https://github.com/Junyi42/monst3r) (follow the official guide
 
 ### Data Processing
 Here are the instructions to reproduce the DataDoP dataset using the data processing scripts.
-1. Download videos from YouTube
+
+**Note:** Shots that do not meet the requirements have already been excluded from the metadata.csv file. The commented-out detect and filter functions can be ignored when building the DataDoP dataset. They can only be uncommented and used when constructing your own dataset.
+
+#### 1. Clip Collection
 ```bash
-python scripts/download.py
+python scripts/Download.py # Download videos from YouTube
+python scripts/Cropping.py # Remove the black borders from the video
+python scripts/Boundary.py # Boundary Detection and Splitting
+python scripts/Filtering.py # Filtering and Image Extraction
 ```
-2. Video Splitting:
+
+#### 2. Traj Extraction
+
+Install [MonST3R](https://github.com/Junyi42/monst3r) and download checkpoints (follow the official guidelines if you encounter any issues)
+
 ```bash
+cd monst3r
+python run_batch.py --range $RANGE
 ```
-3. Image Extraction:
+
+#### 3. Data Annotation 
+
+Basic Dataset Annotation: Add `<ShotID>_rgb.png,  <ShotID>_depth.npy, <ShotID>_intrinsics.txt, <ShotID>_traj.txt, <ShotID>_transforms_cleaning.json`
 ```bash
+python scripts/Dataset_DataDoP.py basic
 ```
-4. Filter Out Static, Too Dark, or Poor Tracking Shots:
+Trajectory Visualization (Option): Add `<ShotID>_traj_cleaning.png`
 ```bash
+python extrinsic2pyramid/visualize.py 
 ```
-5. MonST3R for Camera Trajectories:
+Caption Generation: Add `<ShotID>_caption.json`
 ```bash
-```
-6. Dataset Building:
-```bash
-```
-7. Pose Checking:
-```bash
-```
-8. Pose Cleaning:
-```bash
-```
-9. Trajectory Visualization:
-```bash
-```
-10. Tagging and Pose Annotation:
-```bash
-```
-11. Image Stitching:
-```bash
-```
-12. Generate Interaction Captions:
-```bash
-```
-13. Generate Captions:
-```bash
+python scripts/Dataset_Tagging.py # Movement Tagging and Generate Motion Captions
+python scripts/Dataset_Captioning.py # Generate Directorial Captions
+python scripts/Dataset_DataDoP.py caption # Finalize DataDoP Dataset with captions
 ```
 
 ## License

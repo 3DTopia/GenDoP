@@ -32,3 +32,6 @@ evaluate/eval/results
 dataset/DATA
 dataset/download
 dataset/readme.md
+dataset/outputs
+dataset/vis0
+dataset/upload

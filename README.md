@@ -5,13 +5,13 @@
 <a href="https://arxiv.org/abs/2504.07083"><img src="https://img.shields.io/badge/arXiv-Paper-<color>"></a>
 <a href="https://kszpxxzmc.github.io/GenDoP/"><img src="https://img.shields.io/badge/Project-Website-red"></a>
 <a href="https://www.youtube.com/watch?v=UWvR_A7yFeI"><img src="https://img.shields.io/static/v1?label=Demo&message=Video&color=orange"></a>
-<a href=""><img src="https://img.shields.io/static/v1?label=Dataset&message=Data&color=yellow"></a>
+<a href="https://huggingface.co/datasets/Dubhe-zmc/DataDoP"><img src="https://img.shields.io/static/v1?label=Dataset&message=Data&color=yellow"></a>
 <a href="" target='_blank'>
 <img src="https://visitor-badge.laobi.icu/badge?page_id=TODO" />
 </a>
 </p>
 
-[**Paper**](https://arxiv.org/abs/2504.07083) | [**Project page**](https://kszpxxzmc.github.io/GenDoP/) | [**Video**](https://www.youtube.com/watch?v=UWvR_A7yFeI) | [**Data**]() 
+[**Paper**](https://arxiv.org/abs/2504.07083) | [**Project page**](https://kszpxxzmc.github.io/GenDoP) | [**Video**](https://www.youtube.com/watch?v=UWvR_A7yFeI) | [**Data**](https://huggingface.co/datasets/Dubhe-zmc/DataDoP) 
 
 [Mengchen Zhang](https://kszpxxzmc.github.io), [Tong Wu✉️](https://wutong16.github.io), [Jing Tan](https://sparkstj.github.io/), [Ziwei Liu](https://liuziwei7.github.io/), [Gordon Wetzstein](https://stanford.edu/~gordonwz/), [Dahua Lin✉️](http://dahua.site/)
 
@@ -23,7 +23,8 @@
 
 [2025-07-03] Released training code.
 
-<!-- [2025-07-08] Released the curated trajectory dataset DataDoP along with its construction code. -->
+[2025-09-11] Released the curated trajectory dataset DataDoP along with its construction code.
+
 <!-- [2025-07-15] Launched the Gradio demo. -->
 
 ## 📦 Install 
@@ -165,16 +166,15 @@ Place the downloaded files into `./evaluate/CLaTr/CLaTr_checkpoints`.
 
 
 ## 📚 Dataset
-**Note:**  We provide [DataDoP](https://huggingface.co/datasets/Dubhe-zmc/DataDoP), a large-scale multi-modal dataset containing 29K realworld shots with free-moving camera trajectories, depth maps, and detailed captions in specific movements, interaction with the scene, and directorial intent. 
+**Note:**  We provide [DataDoP](https://huggingface.co/datasets/Dubhe-zmc/DataDoP), a large-scale multi-modal dataset containing 29K realworld shots with free-moving camera trajectories, depth maps, and detailed captions in specific movements, interaction with the scene, and directorial intent. For an overview of the DataDoP dataset and its construction, please refer to [dataset/dataset.md](./dataset/dataset.md) for more details.
 
-Currently, we are releasing a subset of the dataset for validation purposes. Additional data will be made available **coming soon**.
+*Due to copyright restrictions, some of the original data has been replaced. As a result, training on the new dataset may yield slightly different results compared to those reported in the paper.*
 
-<!-- Please refer to the dataset README for more details. -->
-
+<!-- Currently, we are releasing a subset of the dataset for validation purposes. Additional data will be made available **coming soon**. -->
 
 ## 🏋️‍♂️ Training
 
-**Note:**  We have released a subset of the [DataDoP](https://huggingface.co/datasets/Dubhe-zmc/DataDoP) dataset for training and validation. Please organize your training data in the following structure. If you wish to use your own dataset, refer to our data format and modify the [core/provider.py](./core/provider.py) file as needed.
+**Note:**  We have released the [DataDoP](https://huggingface.co/datasets/Dubhe-zmc/DataDoP) dataset. If you wish to use your own dataset, refer to our data format and modify the [core/provider.py](./core/provider.py) file as needed. Please organize your data in the following structure. 
 
 ```
 GenDoP
@@ -208,11 +208,8 @@ Recommended hyperparameters:
   ```
 You can adjust these parameters in [core/options.py](./core/options.py) according to your specific requirements.
 
-## 📆 Todo
-<!-- - [ ] Release Inference Code  -->
-- [ ] Release Dataset
-- [ ] Release Dataset Construction Code
-- [ ] Gradio Demo
+<!-- ## 📆 Todo
+- [ ] Gradio Demo -->
 
 ## 📚 Acknowledgements
 This work is built on many amazing research works and open-source projects, thanks a lot to all the authors for sharing!
