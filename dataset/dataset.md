@@ -94,6 +94,9 @@ Install [MonST3R](https://github.com/Junyi42/monst3r) and download checkpoints (
 
 ```bash
 cd monst3r
+cd data
+bash download_ckpt.sh
+cd ..
 python run_batch.py --range $RANGE
 ```
 
