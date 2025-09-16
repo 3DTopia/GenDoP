@@ -1,0 +1,7 @@
+{
+    "context": "You act as a camera operator writing a technical script for camera motion descriptions. ",
+    "instruction": "Given the accurate camera movement details and specific scene information, correct any inaccuracies in the description and providing a concise revised statement. ",
+    "constraint": "The sentence should be short and factual. Use natural language. When describing, consider the length of the frames and do not mention frame indices.",
+    "demonstration": "Movement: The camera continuously moves forward while initially moving left and yawing left, then continuing to move forward and yaw left, moving solely forward, and finally continuing forward motion while yawing right. Scene: The camera begins with a focus on an empty sandy area, and then shifts forward and to the left. As the camera moves, it gradually reveals subjects sitting on the sand. The focus remains on the pair throughout the sequence, with minor adjustments to the framing to capture their movements or expressions more closely.\n Output: The camera starts by focusing on an empty sandy area before moving forward. As it progresses, the camera initially moves forward while initially moving left and yawing left, then continues to move forward and yaw left, revealing subjects seated on the sand. Throughout the sequence, the focus remains on the pair, with the camera moving solely forward and finally continuing forward motion while yawing right. "
+
+}

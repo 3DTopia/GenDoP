@@ -1,0 +1,16 @@
+defaults:
+  - _self_
+  - cam: segment_cam
+  - llm: cam+rotate
+  # - char: segment_char
+  # 
+
+name: caption
+data_dir: './DATA/Dataset'
+output_dir: './DATA/Tagging'
+overwrite: false
+reverse: false
+
+smoothing_window_size: 18
+min_chunk_size: 10
+fps: 30.0

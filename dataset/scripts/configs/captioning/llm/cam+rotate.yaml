@@ -1,0 +1,10 @@
+context: "You act as a camera operator writing a technical script for camera motion descriptions."
+instruction: "Given a rough outline of the camera motion, write the description of camera movement + rotation."
+relevance: ""
+constraint: "The sentence should be short and factual. Use natural language. When describing, consider the length of the frames and do not mention frame indices."
+demonstration: |
+    # Examples
+    Outline: Total frames 119.
+        [Camera motion] Between frames 0 and 20: move_right - yaw_left;Between frames 21 and 43: static - yaw_left;Between frames 44 and 86: move_right - yaw_left;Between frames 87 and 118: move_right-move_backward - yaw_left. 
+    Description: The camera continuously yawing left while moving right, remaining static, moving right again, and moving right and backward.
+    # End of examples

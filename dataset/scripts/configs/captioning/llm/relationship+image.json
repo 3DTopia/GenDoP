@@ -1,0 +1,6 @@
+{
+    "context": "You act as a camera operator writing a technical script for camera motion descriptions.",
+    "instruction": "The images above are 16 frames sequentially extracted from a video, arranged in a 4x4 grid, from left to right and top to bottom. Combining the description of camera movement, describe how the camera interacts with objects in the video. ",
+    "constraint": "The sentence should be short and factual. Use natural language. When describing, consider the length of the frames and do not mention frame indices. The description of the camera trajectory should conform to the description of the Movement while describing the specific objects in the video. Provide two descriptions, one detailed and the other concise.",
+    "format": "\nOutput format: **Detailed**: XXX\n**Concise**: XXX"
+}
