@@ -7,11 +7,9 @@ import torch
 from torch.utils.data import Dataset
 import torch.nn.functional as F
 
-# from utils.file_utils import load_txt
-
 def load_config(config_path):
     with open(config_path, 'r') as file:
-        config = yaml.safe_load(file)  # 安全地加载YAML文件内容
+        config = yaml.safe_load(file)
     return config
 
 config_path = "./configs/config_eval.yaml"
@@ -21,7 +19,6 @@ def load_caption(json_path):
     with open(json_path, "r") as f:
         caption = json.load(f)
     return caption[config['key']]
-    # return caption['Concise Interaction']
 
 class CaptionDataset(Dataset):
     def __init__(
@@ -61,22 +58,9 @@ class CaptionDataset(Dataset):
     def __getitem__(self, index):
         filename = self.filenames[index]
 
-        # # Load data
-        # if hasattr(self, "segment_dir"):
-        #     print(self.segment_dir / (filename + ".npy"))
-        #     raw_segments = torch.from_numpy(
-        #         np.load((self.segment_dir / (filename + ".npy")))
-        #     )
-        #     padded_raw_segments = F.pad(
-        #         raw_segments,
-        #         (0, self.num_cams - len(raw_segments)),
-        #         value=self.num_segments,
-        #     )
         if hasattr(self, "raw_caption_dir"):
-            # print(self.raw_caption_dir / (filename + "_caption.json"))
             raw_caption = load_caption(self.raw_caption_dir / (filename + "_caption.json"))
         if hasattr(self, "feat_caption_dir"):
-            # print((self.feat_caption_dir / "seq" / (filename + "_caption.npy")))
             feat_caption = torch.from_numpy(
                 np.load((self.feat_caption_dir / "seq" / (filename + "_caption.npy")))
             )
@@ -87,9 +71,6 @@ class CaptionDataset(Dataset):
             feat_mask = torch.ones((self.max_feat_length))
             feat_mask[feat_caption.shape[0] :] = 0
 
-            # token_caption = torch.from_numpy(
-            #     np.load(self.clip_token_dir / (filename + ".npy"))
-            # )
             token_caption = torch.from_numpy(
                 np.load((self.feat_caption_dir / "token" / (filename + "_caption.npy")))
             )
@@ -97,7 +78,6 @@ class CaptionDataset(Dataset):
         if self.modality == "caption":
             raw_data = {
                 "caption": raw_caption,
-                # "segments": padded_raw_segments,
                 "token": token_caption,
             }
             feat_data = {"x": padded_feat_caption, "mask": feat_mask.to(bool)}

@@ -155,33 +155,17 @@ class TrajectoryDataset(Dataset):
                 return torch.cat([mat, torch.tensor([0,0,0,1]).repeat(mat.shape[0],mat.shape[1],1,1).to(mat.device)],dim=2)
 
         def check_valid_rotation_matrix(R):
-            """
-            检查旋转矩阵的有效性，包括正交性和行列式是否为 1。
-            
-            参数：
-            - R: 形状为 (B, 3, 3) 的张量，表示旋转矩阵的批量。
-
-            返回：
-            - valid: 如果所有旋转矩阵都是有效的，返回 True；否则返回 False。
-            """
-            # 计算 R^T R，检查是否接近单位矩阵
             I = torch.eye(3, device=R.device, dtype=R.dtype).unsqueeze(0).expand(R.shape[0], 3, 3)  # (B, 3, 3)
             R_T_R = torch.bmm(R.transpose(1, 2), R)  # (B, 3, 3)
-            is_orthogonal = torch.allclose(R_T_R, I, atol=1e-6)  # 检查正交性
+            is_orthogonal = torch.allclose(R_T_R, I, atol=1e-6)
             
-            # 检查行列式是否为 1
-            det_R = torch.det(R)  # (B,) 行列式
+            det_R = torch.det(R)
             has_det_one = torch.allclose(det_R, torch.ones_like(det_R, device=R.device), atol=1e-6)
 
-            # 如果都满足正交性和行列式为1，则旋转矩阵有效
             return is_orthogonal & has_det_one
         
-        # Normalize the cameras if required
         ref_w2c = torch.inverse(c2ws[:1])
         c2ws = (ref_w2c.repeat(c2ws.shape[0], 1, 1) @ c2ws)
-            # T_norm = c2ws[::1, :3, 3].norm(dim=-1).max()
-            # scale = T_norm + 1e-2
-            # c2ws[:, :3, 3] = c2ws[:, :3, 3] / scale
                 
         return c2ws.to(torch.float32)
         
@@ -344,33 +328,18 @@ class TrajectoryEvalDataset(Dataset):
                 return torch.cat([mat, torch.tensor([0,0,0,1]).repeat(mat.shape[0],mat.shape[1],1,1).to(mat.device)],dim=2)
 
         def check_valid_rotation_matrix(R):
-            """
-            检查旋转矩阵的有效性，包括正交性和行列式是否为 1。
-            
-            参数：
-            - R: 形状为 (B, 3, 3) 的张量，表示旋转矩阵的批量。
-
-            返回：
-            - valid: 如果所有旋转矩阵都是有效的，返回 True；否则返回 False。
-            """
-            # 计算 R^T R，检查是否接近单位矩阵
             I = torch.eye(3, device=R.device, dtype=R.dtype).unsqueeze(0).expand(R.shape[0], 3, 3)  # (B, 3, 3)
             R_T_R = torch.bmm(R.transpose(1, 2), R)  # (B, 3, 3)
-            is_orthogonal = torch.allclose(R_T_R, I, atol=1e-6)  # 检查正交性
+            is_orthogonal = torch.allclose(R_T_R, I, atol=1e-6)
             
-            # 检查行列式是否为 1
-            det_R = torch.det(R)  # (B,) 行列式
+            det_R = torch.det(R)
             has_det_one = torch.allclose(det_R, torch.ones_like(det_R, device=R.device), atol=1e-6)
 
-            # 如果都满足正交性和行列式为1，则旋转矩阵有效
             return is_orthogonal & has_det_one
         
         # Normalize the cameras if required
         ref_w2c = torch.inverse(c2ws[:1])
         c2ws = (ref_w2c.repeat(c2ws.shape[0], 1, 1) @ c2ws)
-            # T_norm = c2ws[::1, :3, 3].norm(dim=-1).max()
-            # scale = T_norm + 1e-2
-            # c2ws[:, :3, 3] = c2ws[:, :3, 3] / scale
                 
         return c2ws.to(torch.float32)
         
