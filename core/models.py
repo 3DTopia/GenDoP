@@ -353,7 +353,8 @@ class LMM(nn.Module):
             meshes = []
             all_tokens = []
             for b in range(B):
-                tokens = output_ids[b].detach().cpu().numpy()
+                tokens = output_ids[b].detach().cpu().numpy() - 3  # remove offset
+                assert np.all(tokens >= 0) and np.all(tokens <= self.opt.discrete_bins)
                 if resume_ids is not None:
                     tokens = np.concatenate((resume_ids[b].detach().cpu().numpy(), tokens), axis=0)
                 all_tokens.append(tokens)
