@@ -250,7 +250,7 @@ class ShotTrajDataset(Dataset):
             idx = np.random.randint(0, len(self.items))
             return self.__getitem__(idx)
         results['cameras'] = cameras
-        results['coords'] = coords
+        results['coords'] = coords + 3  # reserve 0,1,2 for special tokens
         results['text'] = text
         results['rgb'] = rgb
         results['depth'] = depth
